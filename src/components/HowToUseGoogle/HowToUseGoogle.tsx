@@ -84,7 +84,7 @@ export default function HowToUseGoogle() {
             <div className="w-full h-dvh flex justify-center items-center">
                 <div className="flex flex-col items-center">
                     <div className="mb-5 text-xl text-zinc-800">{stepDescription}</div>
-                    <Image alt="Google" src={googleLogo} />
+                    <img alt="Google" src={googleLogo.src} />
                     <div ref={searchBarRef} className={styles.searchbar}>
                         <div className="flex items-center flex-1">
                             <div className="w-[20px] h-[20px] l text-[#9aa0a6] fill-current">
@@ -111,7 +111,7 @@ export default function HowToUseGoogle() {
                         top: `${cursorPos?.y}px`,
                     }}
                 >
-                    <Image class="w-[30px] h-[30px]" alt="Mouse cursor" src={cursorImage} />
+                    <img className="w-[30px] h-[30px]" alt="Mouse cursor" src={cursorImage.src} />
                 </div>
             )}
         </>
