@@ -119,7 +119,7 @@ export default function HowToUseGoogle() {
                     position: "absolute",
                     left: `${cursorPos?.x}px`,
                     top: `${cursorPos?.y}px`,
-                    display: cursorActive ? "block" : "hidden",
+                    display: cursorActive ? "block" : "none",
                 }}
             >
                 <img loading="eager" className="w-[30px] h-[30px]" alt="Mouse cursor" src={cursorImage.src} />
