@@ -28,7 +28,7 @@ export default function HowToUseGoogle() {
     const searchButtonRef = useRef<HTMLDivElement>(null);
 
     async function step1() {
-        await delay(500);
+        await delay(1000);
 
         for await (const letter of query!) {
             setEntered((entered) => entered + letter);
