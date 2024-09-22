@@ -9,7 +9,10 @@ function delay(delay: number) {
     return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
-const Button = forwardRef(function Button(props: PropsWithChildren & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, ref: any) {
+const Button = forwardRef(function Button(
+    props: PropsWithChildren & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+    ref: any,
+) {
     return (
         <div ref={ref} {...props} className={styles.button}>
             {props.children}
@@ -26,12 +29,14 @@ export default function HowToUseGoogle() {
 
     const searchBarRef = useRef<HTMLDivElement>(null);
     const searchButtonRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     async function step1() {
         await delay(1000);
 
         for await (const letter of query!) {
             setEntered((entered) => entered + letter);
+            inputRef.current!.scrollLeft = inputRef.current!.scrollWidth;
             await delay(Math.random() * 100 + 30);
         }
 
@@ -51,8 +56,8 @@ export default function HowToUseGoogle() {
 
         function frame() {
             setCursorPos((currentPos) => ({
-                x: currentPos!.x + ((searchButtonRef.current!.offsetLeft + 30) - currentPos!.x) / 10,
-                y: currentPos!.y + ((searchButtonRef.current!.offsetTop + 15) - currentPos!.y) / 10,
+                x: currentPos!.x + (searchButtonRef.current!.offsetLeft + 30 - currentPos!.x) / 10,
+                y: currentPos!.y + (searchButtonRef.current!.offsetTop + 15 - currentPos!.y) / 10,
             }));
             setCursorActive(true);
 
@@ -92,7 +97,13 @@ export default function HowToUseGoogle() {
                                     <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
                                 </svg>
                             </div>
-                            <div className="ml-2 overflow-x-scroll flex-1">{entered.replaceAll("\n", "")}</div>
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                readOnly
+                                className="ml-2 overflow-x-scroll flex-1 border-none bg-none outline-none"
+                                value={entered.replaceAll("\n", "")}
+                            />
                         </div>
 
                         <div></div>
@@ -103,17 +114,16 @@ export default function HowToUseGoogle() {
                     </div>
                 </div>
             </div>
-            {cursorActive && (
-                <div
-                    style={{
-                        position: "absolute",
-                        left: `${cursorPos?.x}px`,
-                        top: `${cursorPos?.y}px`,
-                    }}
-                >
-                    <img className="w-[30px] h-[30px]" alt="Mouse cursor" src={cursorImage.src} />
-                </div>
-            )}
+            <div
+                style={{
+                    position: "absolute",
+                    left: `${cursorPos?.x}px`,
+                    top: `${cursorPos?.y}px`,
+                    display: cursorActive ? "block" : "hidden",
+                }}
+            >
+                <img loading="eager" className="w-[30px] h-[30px]" alt="Mouse cursor" src={cursorImage.src} />
+            </div>
         </>
     );
 }
